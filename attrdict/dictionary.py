@@ -6,7 +6,7 @@ from attrdict.mixins import MutableAttr
 import six
 
 
-__all__ = ['AttrDict']
+__all__ = ['AttrDict', 'ACAttrDict']
 
 
 class AttrDict(dict, MutableAttr):
@@ -58,3 +58,13 @@ class AttrDict(dict, MutableAttr):
         attr._setattr('_sequence_type', configuration)
 
         return attr
+
+class ACAttrDict(AttrDict):
+    '''
+    AttrDict with auto-complete support.
+    default __dir__ overriden to return sorted keys
+    '''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    def __dir__(self):
+        return sorted(self.keys())
